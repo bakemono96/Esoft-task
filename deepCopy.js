@@ -91,6 +91,7 @@ let original = {
 const secret = Symbol("secret");
 original[secret] = { code: 123 };
 
+// Сохраняем результат deepCopy в переменную
 let dublicate = deepCopy(original);
 
 // Проверка для string
@@ -162,7 +163,6 @@ console.log("dublicate elements:", dublicate.elements);
 // КОНКРЕТНО ЭТОТ МОМЕНТ МНЕ ПОКА НЕ ЯСЕН ДО КОНЦА.
 // Решением здесь будет - использовать WeakMap().
 // WeakMap() - коллекция пар "Ключ -> значение", где ключ может являтся только объектом.
-
 let cyclic = { name: "test" };
 cyclic.self = cyclic;
 let cyclicCopy = deepCopy(cyclic);
@@ -173,7 +173,7 @@ console.log(cyclicCopy !== cyclic);  // true
 // Проверка function()
 // Здесь копируется ссылка на на уже существующую функцию original.greetings
 // в dublicate.greetings.
-// По условию нужно, как я понял, именно склонировать функцию исходную,
+// По условию нужно, как я понял, именно склонировать исходную функцию,
 // но я пока не разобрался как корректно это сделать.
 console.log(typeof dublicate.greetings);  // function
 console.log(dublicate.greetings());  // Greetings!
@@ -186,9 +186,9 @@ console.log(dublicate[secret].code); // 999
 
 // Проверка дескрипторов
 // Object.defineProperty позволяет задать свойство с ограничениями:
-// writable: false — нельзя изменить значение
-// enumerable: false — не видно в for...in и Object.keys
-// configurable: false — нельзя удалить или переопределить
+// writable: false - нельзя изменить значение
+// enumerable: false - не видно в for...in и Object.keys
+// configurable: false - нельзя удалить или переопределить
 let descriptorTest = {};
 Object.defineProperty(descriptorTest, "locked", {
     value: "cannot change me",
